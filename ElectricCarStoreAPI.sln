@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35312.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectricCarStoreAPI", "ElectricCarStoreAPI\ElectricCarStoreAPI.csproj", "{B28CBBCF-E3D4-49B6-8170-A3B8A4CEB1E4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B28CBBCF-E3D4-49B6-8170-A3B8A4CEB1E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B28CBBCF-E3D4-49B6-8170-A3B8A4CEB1E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B28CBBCF-E3D4-49B6-8170-A3B8A4CEB1E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B28CBBCF-E3D4-49B6-8170-A3B8A4CEB1E4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F7605B21-9018-4142-AC87-8C8F5B9F808C}
+	EndGlobalSection
+EndGlobal
