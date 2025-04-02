@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>ElectricCarStore_BLL</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\ElectricCarStore-DAL\ElectricCarStore-DAL.csproj" />
+	</ItemGroup>
+</Project>

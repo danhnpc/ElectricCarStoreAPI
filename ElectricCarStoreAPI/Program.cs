@@ -1,3 +1,9 @@
+﻿using ElectricCarStore_BLL.IService;
+using ElectricCarStore_BLL.Service;
+using ElectricCarStore_DAL.IRepository;
+using ElectricCarStore_DAL.Models;
+using ElectricCarStore_DAL.Repository;
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors(options =>
 {
@@ -8,13 +14,22 @@ builder.Services.AddCors(options =>
 });
 // Add services to the container.
 
+builder.Services.AddDbContext<ElectricCarStoreContext>((serviceProvider, options) =>
+{
+    // Gọi hàm ConfigureDbContext từ DBConnection để cấu hình connection string
+    DBConnection.ConfigureDbContext(serviceProvider, options, builder.Configuration);
+});
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
 builder.WebHost.ConfigureKestrel(options =>
 {
-    options.ListenAnyIP(5000); // L?ng nghe tr�n t?t c? IP
+    options.ListenAnyIP(5000); // L?ng nghe trên t?t c? IP
 });
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddTransient<IUserService, UserService>(); // nếu bạn có service riêng cho User
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

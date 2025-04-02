@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
 	<PublishReadyToRun>true</PublishReadyToRun>
   </PropertyGroup>
@@ -10,5 +9,8 @@
   <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
-
+	<ItemGroup>
+		<ProjectReference Include="..\ElectricCarStore-BLL\ElectricCarStore-BLL.csproj" />
+		<ProjectReference Include="..\ElectricCarStore-DAL\ElectricCarStore-DAL.csproj" />
+	</ItemGroup>
 </Project>

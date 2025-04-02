@@ -1,0 +1,11 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/ElectricCarStore-BLL/bin
+/ElectricCarStore-BLL/obj
+/ElectricCarStore-DAL/bin
+/ElectricCarStore-DAL/obj
+/ElectricCarStoreAPI/bin
+/ElectricCarStoreAPI/obj

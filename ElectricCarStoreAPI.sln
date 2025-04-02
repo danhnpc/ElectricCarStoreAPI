@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectricCarStoreAPI", "ElectricCarStoreAPI\ElectricCarStoreAPI.csproj", "{B28CBBCF-E3D4-49B6-8170-A3B8A4CEB1E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElectricCarStoreAPI", "ElectricCarStoreAPI\ElectricCarStoreAPI.csproj", "{B28CBBCF-E3D4-49B6-8170-A3B8A4CEB1E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectricCarStore-BLL", "ElectricCarStore-BLL\ElectricCarStore-BLL.csproj", "{81AF7B80-8AB6-4900-A29F-4EBDEC9856B8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectricCarStore-DAL", "ElectricCarStore-DAL\ElectricCarStore-DAL.csproj", "{578FA35E-02B3-4B9F-B828-408FE481D681}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{B28CBBCF-E3D4-49B6-8170-A3B8A4CEB1E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B28CBBCF-E3D4-49B6-8170-A3B8A4CEB1E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B28CBBCF-E3D4-49B6-8170-A3B8A4CEB1E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81AF7B80-8AB6-4900-A29F-4EBDEC9856B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81AF7B80-8AB6-4900-A29F-4EBDEC9856B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81AF7B80-8AB6-4900-A29F-4EBDEC9856B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81AF7B80-8AB6-4900-A29F-4EBDEC9856B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{578FA35E-02B3-4B9F-B828-408FE481D681}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{578FA35E-02B3-4B9F-B828-408FE481D681}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{578FA35E-02B3-4B9F-B828-408FE481D681}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{578FA35E-02B3-4B9F-B828-408FE481D681}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
