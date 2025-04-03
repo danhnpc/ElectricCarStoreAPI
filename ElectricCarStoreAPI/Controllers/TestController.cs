@@ -1,6 +1,7 @@
 ﻿using ElectricCarStore_DAL.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace ElectricCarStoreAPI.Controllers
 {
@@ -8,10 +9,14 @@ namespace ElectricCarStoreAPI.Controllers
     [ApiController]
     public class TestController : ControllerBase
     {
+        private readonly IConfiguration _configuration;
         private readonly ElectricCarStoreContext _dbContext;
 
-        public TestController(ElectricCarStoreContext dbContext)
+        public TestController(
+            IConfiguration configuration,
+            ElectricCarStoreContext dbContext)
         {
+            _configuration = configuration;
             _dbContext = dbContext;
         }
 
@@ -20,8 +25,22 @@ namespace ElectricCarStoreAPI.Controllers
         {
             try
             {
+                var dbConfig = _configuration.GetSection("DBConnect:ConnectString");
+
+                string server = dbConfig["Server"];
+                string uid = dbConfig["Uid"];
+                string pwd = dbConfig["Pwd"];
+                string database = dbConfig["Database"];
+
                 await _dbContext.Database.CanConnectAsync();
-                return Ok("✅ Kết nối database thành công!");
+                return Ok(new
+                {
+                    Message = "✅ Kết nối database thành công!",
+                    Server = server,
+                    Uid = uid,
+                    Pwd = pwd,
+                    Database = database
+                });
             }
             catch (Exception ex)
             {

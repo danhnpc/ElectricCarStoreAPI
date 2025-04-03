@@ -1,4 +1,5 @@
-﻿using ElectricCarStore_BLL.IService;
+﻿using ElectricCarStore_BLL.Extension;
+using ElectricCarStore_BLL.IService;
 using ElectricCarStore_BLL.Service;
 using ElectricCarStore_DAL.IRepository;
 using ElectricCarStore_DAL.Models;
@@ -37,7 +38,7 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsLocal())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
