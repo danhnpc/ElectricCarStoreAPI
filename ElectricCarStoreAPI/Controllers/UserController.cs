@@ -54,10 +54,18 @@ namespace ElectricCarStoreAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateUser([FromBody] User user)
+        public async Task<IActionResult> CreateUser([FromBody] LoginRequest user)
         {
-            await _userService.AddUserAsync(user);
-            return CreatedAtAction(nameof(GetUserById), new { id = user.Id }, user);
+            try
+            {
+                var result = await _userService.AddUserAsync(user);
+                return CreatedAtAction(nameof(GetUserById), new { id = result.Id }, result);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            
         }
 
         [HttpPut("{id}")]

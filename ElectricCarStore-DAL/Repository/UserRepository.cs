@@ -23,10 +23,11 @@ namespace ElectricCarStore_DAL.Repository
             return await _context.Users.FindAsync(id);
         }
 
-        public async Task AddAsync(User entity)
+        public async Task<User> AddAsync(User entity)
         {
             await _context.Users.AddAsync(entity);
             await _context.SaveChangesAsync();
+            return entity;
         }
 
         public async Task UpdateAsync(User entity)
@@ -59,6 +60,18 @@ namespace ElectricCarStore_DAL.Repository
 
             // Lưu thay đổi
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<User> GetUserByUsernameAsync(string username)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
+
+            if (user == null)
+            {
+                throw new KeyNotFoundException("User not found");
+            }
+
+            return user;
         }
     }
 }

@@ -4,6 +4,8 @@ using ElectricCarStore_BLL.Service;
 using ElectricCarStore_DAL.IRepository;
 using ElectricCarStore_DAL.Models;
 using ElectricCarStore_DAL.Repository;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors(options =>
@@ -13,6 +15,27 @@ builder.Services.AddCors(options =>
         policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
     });
 });
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                var signingKey = Convert.FromBase64String(builder.Configuration["Jwt:SignKey"]);
+                var encryptKey = Convert.FromBase64String(builder.Configuration["Jwt:EncryptKey"]);
+                string validIssusers = builder.Configuration["ApiUrl"];
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = false,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = validIssusers,
+                    IssuerSigningKey = new SymmetricSecurityKey(signingKey),
+                    TokenDecryptionKey = new SymmetricSecurityKey(encryptKey),
+                    RequireExpirationTime = true,
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero
+                };
+
+            });
 // Add services to the container.
 
 builder.Services.AddDbContext<ElectricCarStoreContext>((serviceProvider, options) =>
@@ -31,6 +54,7 @@ builder.WebHost.ConfigureKestrel(options =>
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IUserService, UserService>(); // nếu bạn có service riêng cho User
+builder.Services.AddTransient<AuthService>(); // nếu bạn có service riêng cho User
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
