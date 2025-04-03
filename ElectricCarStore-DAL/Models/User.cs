@@ -15,11 +15,11 @@ public partial class User
 
     [Column("username")]
     [StringLength(255)]
-    public string? Username { get; set; }
+    public string Username { get; set; }
 
     [Column("password")]
     [StringLength(255)]
-    public string? Password { get; set; }
+    public string Password { get; set; }
 
     [Column("is_deleted")]
     public bool? IsDeleted { get; set; }
