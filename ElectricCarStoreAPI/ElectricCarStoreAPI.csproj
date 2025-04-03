@@ -13,4 +13,11 @@
 		<ProjectReference Include="..\ElectricCarStore-BLL\ElectricCarStore-BLL.csproj" />
 		<ProjectReference Include="..\ElectricCarStore-DAL\ElectricCarStore-DAL.csproj" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Content Update="appsettings.Local.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+	  </Content>
+	</ItemGroup>
 </Project>
