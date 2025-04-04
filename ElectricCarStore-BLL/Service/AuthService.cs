@@ -21,7 +21,7 @@ namespace ElectricCarStore_BLL.Service
         public AuthService(IConfiguration configuration)
         {
             _configuration = configuration;
-            _signKey = _configuration.GetValue<string>("Jwt:SignKey");
+            _signKey = _configuration.GetValue<string>("SecretKey");
             _accessTokenExpirationWeb = _configuration.GetValue<string>("AccessTokenExpirationMinutesWeb");
         }
 
@@ -57,6 +57,9 @@ namespace ElectricCarStore_BLL.Service
         {
             try
             {
+                byte[] keyBytes = Convert.FromBase64String(secretKey);
+                Console.WriteLine($"Key Length: {keyBytes.Length * 8} bits"); // Kiểm tra số bit
+                var length = keyBytes.Length * 8;
                 SecurityKey key = new SymmetricSecurityKey(System.Convert.FromBase64String(secretKey));
                 SigningCredentials credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
