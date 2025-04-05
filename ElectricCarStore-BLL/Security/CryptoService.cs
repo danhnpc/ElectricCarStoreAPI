@@ -14,7 +14,6 @@ namespace ElectricCarStore_BLL.Security
         {
 
             var keyInBytes = Encoding.ASCII.GetBytes(key);
-            //byte[] keyInBytes = Convert.FromBase64String(key);
 
             using (var aes = Aes.Create())
             {

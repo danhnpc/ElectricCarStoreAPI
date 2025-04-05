@@ -10,7 +10,6 @@ namespace ElectricCarStore_BLL.IService
 {
     public interface IUserService
     {
-        Task<string> LoginAsync(LoginRequest loginRequest);
         Task<IEnumerable<User>> GetUsersAsync();
         Task<User> GetUserByIdAsync(int id);
         Task<User> GetUserByUsernameAsync(string username);

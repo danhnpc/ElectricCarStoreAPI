@@ -17,25 +17,29 @@ namespace ElectricCarStore_BLL.Service
 
         private readonly string _signKey;
         private readonly string _accessTokenExpirationWeb;
+        private readonly string _subject;
 
         public AuthService(IConfiguration configuration)
         {
             _configuration = configuration;
             _signKey = _configuration.GetValue<string>("SecretKey");
             _accessTokenExpirationWeb = _configuration.GetValue<string>("AccessTokenExpirationMinutesWeb");
+            _subject = _configuration.GetValue<string>("Jwt:Subject");
         }
 
         public AccessToken Login(User user)
         {
             try
             {
-                var claim = new ClaimsIdentity(new List<Claim> {
-                        new Claim("userId", user.Id.ToString()),
-                        new Claim(ClaimTypes.Role, "Admin")
-                    });
+                var claims = new[]
+                {
+                    new Claim(JwtRegisteredClaimNames.Sub, _subject),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    new Claim("userId", user.Id.ToString()),
+                };
                 DateTime expirationTime = DateTime.UtcNow.AddMinutes(Double.Parse(_accessTokenExpirationWeb));
 
-                string accessToken = GenerateToken(_signKey, expirationTime, claim);
+                string accessToken = GenerateToken(_signKey, expirationTime, claims);
 
                 return new AccessToken
                 {
@@ -52,31 +56,25 @@ namespace ElectricCarStore_BLL.Service
             return new AccessToken();
         }
 
-        public string GenerateToken(string secretKey, DateTime utcExpirationTime,
-            ClaimsIdentity claims = null)
+        public string GenerateToken(string secretKey, DateTime utcExpirationTime, 
+            Claim[] claims = null)
         {
             try
             {
-                byte[] keyBytes = Convert.FromBase64String(secretKey);
-                Console.WriteLine($"Key Length: {keyBytes.Length * 8} bits"); // Kiểm tra số bit
-                var length = keyBytes.Length * 8;
-                SecurityKey key = new SymmetricSecurityKey(System.Convert.FromBase64String(secretKey));
+                SecurityKey key = new SymmetricSecurityKey(Convert.FromBase64String(secretKey));
                 SigningCredentials credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
                 string validIssusers = _configuration.GetValue<string>("ApiUrl");
-                var tokenDescriptor = new SecurityTokenDescriptor
-                {
-                    Issuer = validIssusers,              // Not required as no third-party is involved
-                    Audience = null,            // Not required as no third-party is involved
-                    IssuedAt = DateTime.UtcNow,
-                    NotBefore = DateTime.UtcNow,
-                    Expires = utcExpirationTime,
-                    Subject = claims,
-                    SigningCredentials = credentials
-                };
-                var jwtTokenHandler = new JwtSecurityTokenHandler();
-                var jwtToken = jwtTokenHandler.CreateJwtSecurityToken(tokenDescriptor);
-                var token = jwtTokenHandler.WriteToken(jwtToken);
+
+                var jwtToken = new JwtSecurityToken(
+                    validIssusers,
+                    _configuration["Jwt:ValidAudience"],
+                    claims,
+                    expires: utcExpirationTime,
+                    signingCredentials: credentials
+                    );
+
+                string token = new JwtSecurityTokenHandler().WriteToken(jwtToken);
                 return token;
             }
             catch (Exception e)

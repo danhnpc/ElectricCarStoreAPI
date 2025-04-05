@@ -12,7 +12,6 @@ namespace ElectricCarStore_DAL.Models.ResponseModel
             Pages = -999;
             CountAll = -999;
             Summary = null;
-            Unread = -999;
         }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
@@ -30,10 +29,6 @@ namespace ElectricCarStore_DAL.Models.ResponseModel
         [DefaultValue(-999)]
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int CountAll { get; set; }
-
-        [DefaultValue(-999)]
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public int Unread { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public object Summary { get; set; }

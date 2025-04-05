@@ -2,6 +2,7 @@
 using ElectricCarStore_DAL.Models;
 using ElectricCarStore_DAL.Models.PostModel;
 using ElectricCarStore_DAL.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,30 +19,16 @@ namespace ElectricCarStoreAPI.Controllers
             _userService = userService;
         }
 
-        [HttpPost("login")]
-        public async Task<IActionResult> Login(LoginRequest loginRequest)
-        {
-            try
-            {
-                var token = await _userService.LoginAsync(loginRequest);
-                return Ok(new { Token = token });
-            }
-            catch (UnauthorizedAccessException)
-            {
-                return Unauthorized("Invalid credentials.");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
-        }
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetAllUsers()
         {
+            var userId = Convert.ToInt32(this.User.Claims.Where(x => x.Type == "userId").Select(x => x.Value).FirstOrDefault());
             var users = await _userService.GetUsersAsync();
             return Ok(users);
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUserById(int id)
         {
@@ -67,7 +54,7 @@ namespace ElectricCarStoreAPI.Controllers
             }
             
         }
-
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUser(int id, [FromBody] User user)
         {
@@ -79,6 +66,7 @@ namespace ElectricCarStoreAPI.Controllers
             return NoContent();
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {

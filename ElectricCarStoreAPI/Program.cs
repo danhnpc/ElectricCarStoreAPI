@@ -5,9 +5,21 @@ using ElectricCarStore_DAL.IRepository;
 using ElectricCarStore_DAL.Models;
 using ElectricCarStore_DAL.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using Newtonsoft.Json.Serialization;
+using System.Reflection;
+using System.Security.Claims;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllers();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
@@ -15,27 +27,47 @@ builder.Services.AddCors(options =>
         policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
     });
 });
-
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+})
             .AddJwtBearer(options =>
             {
-                var signingKey = Convert.FromBase64String(builder.Configuration["Jwt:SignKey"]);
+                var signingKey = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SignKey"]);
                 var encryptKey = Convert.FromBase64String(builder.Configuration["Jwt:EncryptKey"]);
                 string validIssusers = builder.Configuration["ApiUrl"];
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuer = true,
-                    ValidateAudience = false,
-                    ValidateIssuerSigningKey = true,
+                    ValidateIssuer = true,  // Tắt tạm thời
                     ValidIssuer = validIssusers,
+                    ValidateAudience = false,  // Tắt tạm thời
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(signingKey),
                     TokenDecryptionKey = new SymmetricSecurityKey(encryptKey),
-                    RequireExpirationTime = true,
-                    ValidateLifetime = true,
                     ClockSkew = TimeSpan.Zero
                 };
-
             });
+
+builder.Services.AddAuthorization(options =>
+{
+    var policy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme);
+
+    //Require authentication for all users
+    policy = policy.RequireAuthenticatedUser();
+    options.DefaultPolicy = policy.Build();
+});
+
+// Thêm vào cấu hình services
+builder.Services.AddOptions<JwtBearerOptions>(JwtBearerDefaults.AuthenticationScheme)
+    .Configure<IConfiguration>((options, configuration) =>
+    {
+        // Cấu hình khác của bạn...
+        options.MapInboundClaims = false; // Thử cài đặt này nếu bạn gặp vấn đề với claims
+    });
+
 // Add services to the container.
 
 builder.Services.AddDbContext<ElectricCarStoreContext>((serviceProvider, options) =>
@@ -44,7 +76,15 @@ builder.Services.AddDbContext<ElectricCarStoreContext>((serviceProvider, options
     DBConnection.ConfigureDbContext(serviceProvider, options, builder.Configuration);
 });
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.RespectBrowserAcceptHeader = true;
+    options.OutputFormatters.RemoveType<StringOutputFormatter>();
+    options.OutputFormatters.RemoveType<HttpNoContentOutputFormatter>();
+}).AddNewtonsoftJson(options =>
+{
+    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
 builder.WebHost.ConfigureKestrel(options =>
@@ -57,19 +97,50 @@ builder.Services.AddTransient<IUserService, UserService>(); // nếu bạn có s
 builder.Services.AddTransient<AuthService>(); // nếu bạn có service riêng cho User
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "ElectricCarStore", Version = "v1" });
+
+    // Cấu hình xác thực Swagger ?? thêm nhập token
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Please enter your token here",
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        Scheme = "bearer"
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+             new OpenApiSecurityScheme
+             {
+                  Reference = new OpenApiReference
+                  {
+                       Type = ReferenceType.SecurityScheme,
+                       Id = "Bearer"
+                  }
+             },
+             Array.Empty<string>()
+        }
+    });
+});
 
 var app = builder.Build();
+app.UseCors();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment() || app.Environment.IsLocal())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ElectricCarStore"));
 }
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

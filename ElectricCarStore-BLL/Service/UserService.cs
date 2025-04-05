@@ -64,11 +64,6 @@ namespace ElectricCarStore_BLL.Service
             await _userRepository.DisableAsync(id);
         }
 
-        public Task<string> LoginAsync(LoginRequest loginRequest)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<User> GetUserByUsernameAsync(string username)
         {
             return await _userRepository.GetUserByUsernameAsync(username);
