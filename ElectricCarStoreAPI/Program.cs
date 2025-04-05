@@ -1,12 +1,15 @@
-﻿using ElectricCarStore_BLL.Extension;
+﻿using CloudinaryDotNet;
+using ElectricCarStore_BLL.Extension;
 using ElectricCarStore_BLL.IService;
 using ElectricCarStore_BLL.Service;
 using ElectricCarStore_DAL.IRepository;
 using ElectricCarStore_DAL.Models;
+using ElectricCarStore_DAL.Models.QueryModel;
 using ElectricCarStore_DAL.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
@@ -91,10 +94,25 @@ builder.WebHost.ConfigureKestrel(options =>
 {
     options.ListenAnyIP(5000); // L?ng nghe trên t?t c? IP
 });
+//Dang ki Clounary
+builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("Cloudinary"));
+builder.Services.AddSingleton<Cloudinary>(sp =>
+{
+    var config = sp.GetRequiredService<IOptions<CloudinarySettings>>().Value;
+    Account account = new Account(
+        config.CloudName,
+        config.ApiKey,
+        config.ApiSecret);
+
+    return new Cloudinary(account);
+});
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IImageRepository, ImageRepository>();
 builder.Services.AddTransient<IUserService, UserService>(); // nếu bạn có service riêng cho User
-builder.Services.AddTransient<AuthService>(); // nếu bạn có service riêng cho User
+builder.Services.AddTransient<AuthService>(); 
+builder.Services.AddScoped<IImageService, CloudinaryImageService>();
+
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>

@@ -13,10 +13,14 @@ namespace ElectricCarStoreAPI.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IImageService _imageService;
 
-        public UserController(IUserService userService)
+        public UserController(
+            IImageService imageService,
+            IUserService userService)
         {
             _userService = userService;
+            _imageService = imageService;
         }
 
         [Authorize]
@@ -73,5 +77,6 @@ namespace ElectricCarStoreAPI.Controllers
             await _userService.DeleteUserAsync(id);
             return NoContent();
         }
+
     }
 }
