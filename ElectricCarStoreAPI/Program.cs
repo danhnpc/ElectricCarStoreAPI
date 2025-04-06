@@ -111,12 +111,18 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IImageRepository, ImageRepository>();
 builder.Services.AddScoped<IBannerRepository, BannerRepository>();
 builder.Services.AddScoped<INewsRepository, NewsRepository>();
+builder.Services.AddScoped<IContactRepository, ContactRepository>();
+builder.Services.AddScoped<ICarRepository, CarRepository>();
+builder.Services.AddScoped<ICarTypeRepository, CarTypeRepository>();
 
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<AuthService>(); 
 builder.Services.AddTransient<IImageService, CloudinaryImageService>();
 builder.Services.AddTransient<IBannerService, BannerService>();
 builder.Services.AddTransient<INewsService, NewsService>();
+builder.Services.AddTransient<IContactService, ContactService>();
+builder.Services.AddTransient<ICarService, CarService>();
+builder.Services.AddTransient<ICarTypeService, CarTypeService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
