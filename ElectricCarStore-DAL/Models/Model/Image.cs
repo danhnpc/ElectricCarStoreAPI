@@ -17,7 +17,7 @@ public partial class Image
     [StringLength(500)]
     public string Url { get; set; }
 
-    [Column("created_date", TypeName = "timestamp(0) without time zone")]
+    [Column("created_date")]
     public DateTime? CreatedDate { get; set; }
 
     [Column("is_deleted")]
