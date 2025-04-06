@@ -109,10 +109,14 @@ builder.Services.AddSingleton<Cloudinary>(sp =>
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IImageRepository, ImageRepository>();
-builder.Services.AddTransient<IUserService, UserService>(); // nếu bạn có service riêng cho User
-builder.Services.AddTransient<AuthService>(); 
-builder.Services.AddScoped<IImageService, CloudinaryImageService>();
+builder.Services.AddScoped<IBannerRepository, BannerRepository>();
+builder.Services.AddScoped<INewsRepository, NewsRepository>();
 
+builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<AuthService>(); 
+builder.Services.AddTransient<IImageService, CloudinaryImageService>();
+builder.Services.AddTransient<IBannerService, BannerService>();
+builder.Services.AddTransient<INewsService, NewsService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>

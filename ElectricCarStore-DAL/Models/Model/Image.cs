@@ -4,22 +4,21 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace ElectricCarStore_DAL.Models;
+namespace ElectricCarStore_DAL.Models.Model;
 
-[Table("user")]
-public partial class User
+[Table("image")]
+public partial class Image
 {
     [Key]
     [Column("id")]
     public int Id { get; set; }
 
-    [Column("username")]
-    [StringLength(255)]
-    public string Username { get; set; }
+    [Column("url")]
+    [StringLength(500)]
+    public string Url { get; set; }
 
-    [Column("password")]
-    [StringLength(255)]
-    public string Password { get; set; }
+    [Column("created_date", TypeName = "timestamp(0) without time zone")]
+    public DateTime? CreatedDate { get; set; }
 
     [Column("is_deleted")]
     public bool? IsDeleted { get; set; }

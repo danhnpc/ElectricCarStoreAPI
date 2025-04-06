@@ -1,9 +1,7 @@
 ﻿using ElectricCarStore_BLL.IService;
-using ElectricCarStore_DAL.Models;
+using ElectricCarStore_DAL.Models.Model;
 using ElectricCarStore_DAL.Models.PostModel;
-using ElectricCarStore_DAL.Repository;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ElectricCarStoreAPI.Controllers

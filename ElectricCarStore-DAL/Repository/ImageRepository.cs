@@ -1,12 +1,6 @@
 ﻿using ElectricCarStore_DAL.IRepository;
 using ElectricCarStore_DAL.Models;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using ElectricCarStore_DAL.Models.Model;
 namespace ElectricCarStore_DAL.Repository
 {
     public class ImageRepository : IImageRepository

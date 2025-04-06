@@ -3,7 +3,7 @@ using CloudinaryDotNet;
 using ElectricCarStore_BLL.IService;
 using Microsoft.AspNetCore.Http;
 using ElectricCarStore_DAL.IRepository;
-using ElectricCarStore_DAL.Models;
+using ElectricCarStore_DAL.Models.Model;
 
 namespace ElectricCarStore_BLL.Service
 {

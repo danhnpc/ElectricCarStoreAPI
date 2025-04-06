@@ -1,5 +1,6 @@
 ﻿using ElectricCarStore_DAL.IRepository;
 using ElectricCarStore_DAL.Models;
+using ElectricCarStore_DAL.Models.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace ElectricCarStore_DAL.Repository

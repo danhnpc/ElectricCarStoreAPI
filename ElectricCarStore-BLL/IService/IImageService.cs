@@ -1,11 +1,6 @@
 ﻿using CloudinaryDotNet.Actions;
-using ElectricCarStore_DAL.Models;
+using ElectricCarStore_DAL.Models.Model;
 using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ElectricCarStore_BLL.IService
 {

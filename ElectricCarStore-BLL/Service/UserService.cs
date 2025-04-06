@@ -1,14 +1,9 @@
 ﻿using ElectricCarStore_BLL.IService;
 using ElectricCarStore_BLL.Security;
 using ElectricCarStore_DAL.IRepository;
-using ElectricCarStore_DAL.Models;
+using ElectricCarStore_DAL.Models.Model;
 using ElectricCarStore_DAL.Models.PostModel;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ElectricCarStore_BLL.Service
 {

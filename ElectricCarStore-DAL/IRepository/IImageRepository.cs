@@ -1,9 +1,4 @@
-﻿using ElectricCarStore_DAL.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ElectricCarStore_DAL.Models.Model;
 
 namespace ElectricCarStore_DAL.IRepository
 {

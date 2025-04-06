@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ElectricCarStore_DAL.Models.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace ElectricCarStore_DAL.Models;
@@ -11,15 +10,60 @@ public partial class ElectricCarStoreContext : DbContext
     {
     }
 
+    public virtual DbSet<Banner> Banners { get; set; }
+
+    public virtual DbSet<Car> Cars { get; set; }
+
+    public virtual DbSet<CarType> CarTypes { get; set; }
+
+    public virtual DbSet<Contact> Contacts { get; set; }
+
     public virtual DbSet<Image> Images { get; set; }
+
+    public virtual DbSet<News> News { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Banner>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("banner_pkey");
+
+            entity.Property(e => e.Id).UseIdentityAlwaysColumn();
+        });
+
+        modelBuilder.Entity<Car>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("car_pkey");
+
+            entity.Property(e => e.Id).UseIdentityAlwaysColumn();
+        });
+
+        modelBuilder.Entity<CarType>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("car_type_pkey");
+
+            entity.Property(e => e.Id).UseIdentityAlwaysColumn();
+        });
+
+        modelBuilder.Entity<Contact>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("contact_pkey");
+
+            entity.Property(e => e.Id).UseIdentityAlwaysColumn();
+        });
+
         modelBuilder.Entity<Image>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("image_pkey");
+
+            entity.Property(e => e.Id).UseIdentityAlwaysColumn();
+        });
+
+        modelBuilder.Entity<News>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("news_pkey");
 
             entity.Property(e => e.Id).UseIdentityAlwaysColumn();
         });

@@ -1,7 +1,5 @@
 ﻿using ElectricCarStore_DAL.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 
 namespace ElectricCarStoreAPI.Controllers
 {
