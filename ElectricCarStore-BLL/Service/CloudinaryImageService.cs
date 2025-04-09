@@ -4,6 +4,7 @@ using ElectricCarStore_BLL.IService;
 using Microsoft.AspNetCore.Http;
 using ElectricCarStore_DAL.IRepository;
 using ElectricCarStore_DAL.Models.Model;
+using ElectricCarStore_DAL.Repository;
 
 namespace ElectricCarStore_BLL.Service
 {
@@ -49,6 +50,11 @@ namespace ElectricCarStore_BLL.Service
                 IsDeleted = false,
             });
             return result;
+        }
+
+        public async Task<bool> DeleteImageAsync(int id)
+        {
+            return await _imageRepository.DisableAsync(id);
         }
     }
 }

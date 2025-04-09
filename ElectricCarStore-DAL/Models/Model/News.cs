@@ -27,9 +27,16 @@ public partial class News
     [Column("content")]
     public string Content { get; set; }
 
-    [Column("created_date")]
+    [Column("created_date", TypeName = "timestamp(6) without time zone")]
     public DateTime? CreatedDate { get; set; }
 
     [Column("is_deleted")]
     public bool? IsDeleted { get; set; }
+
+    [Column("is_about_us")]
+    public bool? IsAboutUs { get; set; }
+
+    [ForeignKey("ImageId")]
+    [InverseProperty("News")]
+    public virtual Image Image { get; set; }
 }

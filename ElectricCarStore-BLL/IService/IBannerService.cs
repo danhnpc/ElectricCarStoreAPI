@@ -1,5 +1,6 @@
 ﻿using ElectricCarStore_DAL.Models.Model;
 using ElectricCarStore_DAL.Models.PostModel;
+using ElectricCarStore_DAL.Models.QueryModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace ElectricCarStore_BLL.IService
 {
     public interface IBannerService
     {
-        Task<IEnumerable<Banner>> GetAllBannersAsync();
+        Task<IEnumerable<BannerViewModel>> GetAllBannersAsync();
         Task<Banner> GetBannerByIdAsync(int id);
         Task<Banner> CreateBannerAsync(BannerPostModel bannerModel);
         Task<Banner> UpdateBannerAsync(int id, BannerPostModel bannerModel);

@@ -15,6 +15,7 @@ namespace ElectricCarStore_DAL.Models.PostModel
 
         [Required(ErrorMessage = "Vui lòng nhập nội dung tin tức")]
         public string Content { get; set; }
+        public bool? IsAboutUs { get; set; }
     }
 
 }

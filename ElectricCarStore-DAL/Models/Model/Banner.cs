@@ -26,4 +26,8 @@ public partial class Banner
 
     [Column("is_deleted")]
     public bool? IsDeleted { get; set; }
+
+    [ForeignKey("ImageId")]
+    [InverseProperty("Banners")]
+    public virtual Image Image { get; set; }
 }

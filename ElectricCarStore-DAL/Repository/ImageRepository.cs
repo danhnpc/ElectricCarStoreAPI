@@ -1,6 +1,8 @@
 ﻿using ElectricCarStore_DAL.IRepository;
 using ElectricCarStore_DAL.Models;
 using ElectricCarStore_DAL.Models.Model;
+using Microsoft.EntityFrameworkCore;
+
 namespace ElectricCarStore_DAL.Repository
 {
     public class ImageRepository : IImageRepository
@@ -19,14 +21,35 @@ namespace ElectricCarStore_DAL.Repository
             return entity;
         }
 
-        public Task DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var image = await _context.Images.FindAsync(id);
+            if (image == null)
+                return false;
+
+            // Soft delete
+            image.IsDeleted = true;
+            await _context.SaveChangesAsync();
+            return true;
         }
 
-        public Task DisableAsync(int id)
+        public async Task<bool> DisableAsync(int id)
         {
-            throw new NotImplementedException();
+            var image = await _context.Images.FindAsync(id);
+            if (image == null)
+            {
+                throw new KeyNotFoundException($"Image with ID {id} not found.");
+            }
+            // Soft delete
+            image.IsDeleted = true;
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> ExistsAsync(int id)
+        {
+            return await _context.Images
+               .AnyAsync(b => b.Id == id && b.IsDeleted != true);
         }
 
         public Task<IEnumerable<Image>> GetAllAsync()
@@ -39,9 +62,10 @@ namespace ElectricCarStore_DAL.Repository
             throw new NotImplementedException();
         }
 
-        public Task UpdateAsync(Image entity)
+        public Task<bool> UpdateAsync(Image entity)
         {
             throw new NotImplementedException();
         }
+
     }
 }

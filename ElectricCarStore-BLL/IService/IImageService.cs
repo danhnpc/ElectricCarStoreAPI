@@ -8,5 +8,6 @@ namespace ElectricCarStore_BLL.IService
     {
         Task<ImageUploadResult> UploadImageAsync(IFormFile file);
         Task<Image> SaveImageAsync(string url);
+        public Task<bool> DeleteImageAsync(int id);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using ElectricCarStore_DAL.Models.Model;
+using ElectricCarStore_DAL.Models.QueryModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace ElectricCarStore_DAL.IRepository
 {
     public interface INewsRepository
     {
-        Task<IEnumerable<News>> GetAllAsync();
+        Task<IEnumerable<NewsViewModel>> GetAllAsync();
         Task<News> GetByIdAsync(int id);
         Task<News> AddAsync(News news);
         Task<News> UpdateAsync(News news);

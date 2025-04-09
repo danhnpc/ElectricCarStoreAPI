@@ -12,6 +12,8 @@ namespace ElectricCarStore_DAL.IRepository
         Task<IEnumerable<Car>> GetAllAsync();
         Task<Car> GetByIdAsync(int id);
         Task<Car> AddAsync(Car car);
+        Task<Car> CreateCarWithImagesAsync(Car car, List<int> imageIds);
+        Task<Car> GetCarDetailByIdAsync(int id);
         Task<Car> UpdateAsync(Car car);
         Task<bool> DeleteAsync(int id);
         Task<bool> ExistsAsync(int id);

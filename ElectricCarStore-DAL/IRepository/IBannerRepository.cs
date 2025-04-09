@@ -1,10 +1,11 @@
 ﻿using ElectricCarStore_DAL.Models.Model;
+using ElectricCarStore_DAL.Models.QueryModel;
 
 namespace ElectricCarStore_DAL.IRepository
 {
     public interface IBannerRepository
     {
-        Task<IEnumerable<Banner>> GetAllAsync();
+        Task<IEnumerable<BannerViewModel>> GetAllAsync();
         Task<Banner> GetByIdAsync(int id);
         Task<Banner> AddAsync(Banner banner);
         Task<Banner> UpdateAsync(Banner banner);

@@ -1,5 +1,6 @@
 ﻿using ElectricCarStore_DAL.Models.Model;
 using ElectricCarStore_DAL.Models.PostModel;
+using ElectricCarStore_DAL.Models.QueryModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace ElectricCarStore_BLL.IService
 {
     public interface INewsService
     {
-        Task<IEnumerable<News>> GetAllNewsAsync();
+        Task<IEnumerable<NewsViewModel>> GetAllNewsAsync();
         Task<News> GetNewsByIdAsync(int id);
         Task<News> CreateNewsAsync(NewsPostModel newsModel);
         Task<News> UpdateNewsAsync(int id, NewsPostModel newsModel);

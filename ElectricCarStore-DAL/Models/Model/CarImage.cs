@@ -6,8 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ElectricCarStore_DAL.Models.Model;
 
-[Table("car_type")]
-public partial class CarType
+[Table("car_image")]
+public partial class CarImage
 {
     [Key]
     [Column("id")]
@@ -16,18 +16,17 @@ public partial class CarType
     [Column("car_id")]
     public int? CarId { get; set; }
 
-    [Column("type_name")]
-    [StringLength(255)]
-    public string TypeName { get; set; }
-
-    [Column("price")]
-    [Precision(15, 2)]
-    public decimal? Price { get; set; }
+    [Column("image_id")]
+    public int? ImageId { get; set; }
 
     [Column("is_deleted")]
     public bool? IsDeleted { get; set; }
 
     [ForeignKey("CarId")]
-    [InverseProperty("CarTypes")]
+    [InverseProperty("CarImages")]
     public virtual Car Car { get; set; }
+
+    [ForeignKey("ImageId")]
+    [InverseProperty("CarImages")]
+    public virtual Image Image { get; set; }
 }

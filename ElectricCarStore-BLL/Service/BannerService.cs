@@ -2,6 +2,7 @@
 using ElectricCarStore_DAL.IRepository;
 using ElectricCarStore_DAL.Models.Model;
 using ElectricCarStore_DAL.Models.PostModel;
+using ElectricCarStore_DAL.Models.QueryModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace ElectricCarStore_BLL.Service
             _bannerRepository = bannerRepository;
         }
 
-        public async Task<IEnumerable<Banner>> GetAllBannersAsync()
+        public async Task<IEnumerable<BannerViewModel>> GetAllBannersAsync()
         {
             return await _bannerRepository.GetAllAsync();
         }

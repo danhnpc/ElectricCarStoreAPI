@@ -1,6 +1,7 @@
 ﻿using ElectricCarStore_DAL.IRepository;
 using ElectricCarStore_DAL.Models;
 using ElectricCarStore_DAL.Models.Model;
+using ElectricCarStore_DAL.Models.QueryModel;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -19,10 +20,18 @@ namespace ElectricCarStore_DAL.Repository
             _context = context;
         }
 
-        public async Task<IEnumerable<Banner>> GetAllAsync()
+        public async Task<IEnumerable<BannerViewModel>> GetAllAsync()
         {
             return await _context.Banners
                 .Where(b => b.IsDeleted != true)
+                .Select(b => new BannerViewModel
+                {
+                    Id = b.Id,
+                    Description = b.Description,
+                    Title = b.Title,
+                    ImageId = b.ImageId,
+                    ImageUrl = b.Image != null ? b.Image.Url : null,
+                })
                 .ToListAsync();
         }
 

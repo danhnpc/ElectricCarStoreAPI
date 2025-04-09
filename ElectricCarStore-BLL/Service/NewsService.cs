@@ -2,6 +2,7 @@
 using ElectricCarStore_DAL.IRepository;
 using ElectricCarStore_DAL.Models.Model;
 using ElectricCarStore_DAL.Models.PostModel;
+using ElectricCarStore_DAL.Models.QueryModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace ElectricCarStore_BLL.Service
             _newsRepository = newsRepository;
         }
 
-        public async Task<IEnumerable<News>> GetAllNewsAsync()
+        public async Task<IEnumerable<NewsViewModel>> GetAllNewsAsync()
         {
             return await _newsRepository.GetAllAsync();
         }
@@ -42,7 +43,8 @@ namespace ElectricCarStore_BLL.Service
                 ImageId = newsModel.ImageId,
                 Content = newsModel.Content,
                 // CreatedDate sẽ được thiết lập trong repository
-                IsDeleted = false
+                IsDeleted = false,
+                IsAboutUs = newsModel.IsAboutUs,
             };
 
             return await _newsRepository.AddAsync(news);

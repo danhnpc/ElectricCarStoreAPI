@@ -27,4 +27,10 @@ public partial class Car
 
     [Column("is_deleted")]
     public bool? IsDeleted { get; set; }
+
+    [InverseProperty("Car")]
+    public virtual ICollection<CarImage> CarImages { get; set; } = new List<CarImage>();
+
+    [InverseProperty("Car")]
+    public virtual ICollection<CarType> CarTypes { get; set; } = new List<CarType>();
 }

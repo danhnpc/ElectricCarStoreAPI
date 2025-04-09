@@ -1,6 +1,8 @@
 ﻿using ElectricCarStore_BLL.IService;
 using ElectricCarStore_DAL.Models.Model;
 using ElectricCarStore_DAL.Models.PostModel;
+using ElectricCarStore_DAL.Models.QueryModel;
+using ElectricCarStore_DAL.Models.ResponseModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -97,6 +99,38 @@ namespace ElectricCarStoreAPI.Controllers
             catch (KeyNotFoundException ex)
             {
                 return NotFound(new { message = ex.Message });
+            }
+        }
+
+        [HttpPost("detail")]
+        public async Task<ActionResult<Car>> CreateCarDetail(CarDetailPostModel model)
+        {
+            try
+            {
+                var createdCar = await _carService.CreateCarDetailAsync(model);
+                return Ok( new DefaultResponseContext { Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpGet("detail/{id}")]
+        public async Task<ActionResult<CarDetailViewModel>> GetCarDetail(int id)
+        {
+            try
+            {
+                var carDetail = await _carService.GetCarDetailByIdAsync(id);
+                return Ok(carDetail);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
             }
         }
     }

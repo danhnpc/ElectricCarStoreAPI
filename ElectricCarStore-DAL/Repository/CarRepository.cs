@@ -88,6 +88,63 @@ namespace ElectricCarStore_DAL.Repository
 
             return (cars, totalCount);
         }
+
+        public Task<Car> AddCarDetailAsync(Car car)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<Car> CreateCarWithImagesAsync(Car car, List<int> imageIds)
+        {
+            using var transaction = await _context.Database.BeginTransactionAsync();
+
+            try
+            {
+                // Thêm Car
+                _context.Cars.Add(car);
+                await _context.SaveChangesAsync();
+
+                // Thêm CarImage cho mỗi imageId
+                if (imageIds != null && imageIds.Count > 0)
+                {
+                    foreach (var imageId in imageIds)
+                    {
+                        // Kiểm tra xem Image có tồn tại không
+                        var imageExists = await _context.Images.AnyAsync(i => i.Id == imageId && i.IsDeleted != true);
+                        if (imageExists)
+                        {
+                            var carImage = new CarImage
+                            {
+                                CarId = car.Id,
+                                ImageId = imageId,
+                                IsDeleted = false
+                            };
+
+                            _context.CarImages.Add(carImage);
+                        }
+                    }
+
+                    await _context.SaveChangesAsync();
+                }
+
+                await transaction.CommitAsync();
+
+                return car;
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
+        }
+
+        public async Task<Car> GetCarDetailByIdAsync(int id)
+        {
+            return await _context.Cars
+                .Include(c => c.CarImages)
+                    .ThenInclude(ci => ci.Image)
+                .FirstOrDefaultAsync(c => c.Id == id && c.IsDeleted != true);
+        }
     }
 
 }

@@ -1,6 +1,7 @@
 ﻿using ElectricCarStore_DAL.IRepository;
 using ElectricCarStore_DAL.Models;
 using ElectricCarStore_DAL.Models.Model;
+using ElectricCarStore_DAL.Models.QueryModel;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -19,10 +20,19 @@ namespace ElectricCarStore_DAL.Repository
             _context = context;
         }
 
-        public async Task<IEnumerable<News>> GetAllAsync()
+        public async Task<IEnumerable<NewsViewModel>> GetAllAsync()
         {
             return await _context.News
                 .Where(n => n.IsDeleted != true)
+                .Select(n => new NewsViewModel
+                {
+                    Id = n.Id,
+                    Name = n.Name,
+                    Desc = n.Desc,
+                    Content = n.Content,
+                    CreatedDate = n.CreatedDate,
+                    ImageUrl = n.Image != null ? n.Image.Url : null,
+                })
                 .OrderByDescending(n => n.CreatedDate)
                 .ToListAsync();
         }
