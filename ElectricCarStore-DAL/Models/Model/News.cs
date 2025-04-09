@@ -27,7 +27,7 @@ public partial class News
     [Column("content")]
     public string Content { get; set; }
 
-    [Column("created_date", TypeName = "timestamp(6) without time zone")]
+    [Column("created_date")]
     public DateTime? CreatedDate { get; set; }
 
     [Column("is_deleted")]
