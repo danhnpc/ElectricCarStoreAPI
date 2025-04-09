@@ -20,10 +20,16 @@ namespace ElectricCarStore_DAL.Repository
             _context = context;
         }
 
-        public async Task<IEnumerable<NewsViewModel>> GetAllAsync()
+        public async Task<IEnumerable<NewsViewModel>> GetAllAsync(bool? isAboutUs = null)
         {
-            return await _context.News
-                .Where(n => n.IsDeleted != true)
+            var query = _context.News.Where(n => n.IsDeleted != true);
+
+            if (isAboutUs.HasValue)
+            {
+                query = query.Where(n => n.IsAboutUs == isAboutUs.Value);
+            }
+
+            return await query
                 .Select(n => new NewsViewModel
                 {
                     Id = n.Id,
@@ -31,6 +37,7 @@ namespace ElectricCarStore_DAL.Repository
                     Desc = n.Desc,
                     Content = n.Content,
                     CreatedDate = n.CreatedDate,
+                    IsAboutUs = n.IsAboutUs,
                     ImageUrl = n.Image != null ? n.Image.Url : null,
                 })
                 .OrderByDescending(n => n.CreatedDate)

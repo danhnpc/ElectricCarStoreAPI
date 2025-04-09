@@ -11,7 +11,7 @@ namespace ElectricCarStore_BLL.IService
 {
     public interface INewsService
     {
-        Task<IEnumerable<NewsViewModel>> GetAllNewsAsync();
+        Task<IEnumerable<NewsViewModel>> GetAllNewsAsync(bool? isAboutUs = null);
         Task<News> GetNewsByIdAsync(int id);
         Task<News> CreateNewsAsync(NewsPostModel newsModel);
         Task<News> UpdateNewsAsync(int id, NewsPostModel newsModel);
