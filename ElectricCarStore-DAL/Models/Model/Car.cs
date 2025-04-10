@@ -18,11 +18,9 @@ public partial class Car
     public string Name { get; set; }
 
     [Column("description_a")]
-    [StringLength(500)]
     public string DescriptionA { get; set; }
 
     [Column("description_b")]
-    [StringLength(500)]
     public string DescriptionB { get; set; }
 
     [Column("is_deleted")]
