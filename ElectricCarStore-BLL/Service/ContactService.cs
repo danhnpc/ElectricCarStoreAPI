@@ -2,6 +2,7 @@
 using ElectricCarStore_DAL.IRepository;
 using ElectricCarStore_DAL.Models.Model;
 using ElectricCarStore_DAL.Models.PostModel;
+using ElectricCarStore_DAL.Models.ResponseModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,9 +20,9 @@ namespace ElectricCarStore_BLL.Service
             _contactRepository = contactRepository;
         }
 
-        public async Task<IEnumerable<Contact>> GetAllContactsAsync()
+        public async Task<PagedResponse<Contact>> GetAllContactsAsync(int page, int perPage)
         {
-            return await _contactRepository.GetAllAsync();
+            return await _contactRepository.GetAllAsync(page, perPage);
         }
 
         public async Task<Contact> GetContactByIdAsync(int id)

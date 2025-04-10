@@ -18,9 +18,9 @@ namespace ElectricCarStoreAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Contact>>> GetAllContacts()
+        public async Task<ActionResult<IEnumerable<Contact>>> GetAllContacts(int page = 1, int perPage = 10)
         {
-            var contacts = await _contactService.GetAllContactsAsync();
+            var contacts = await _contactService.GetAllContactsAsync(page, perPage);
             return Ok(contacts);
         }
 

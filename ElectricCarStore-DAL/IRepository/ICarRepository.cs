@@ -1,4 +1,5 @@
 ﻿using ElectricCarStore_DAL.Models.Model;
+using ElectricCarStore_DAL.Models.ResponseModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace ElectricCarStore_DAL.IRepository
 {
     public interface ICarRepository
     {
-        Task<IEnumerable<Car>> GetAllAsync();
+        Task<PagedResponse<Car>> GetAllAsync(int page, int perPage);
         Task<Car> GetByIdAsync(int id);
         Task<Car> AddAsync(Car car);
         Task<Car> CreateCarWithImagesAsync(Car car, List<int> imageIds);

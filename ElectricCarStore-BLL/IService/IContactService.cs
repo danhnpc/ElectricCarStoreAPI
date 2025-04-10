@@ -1,5 +1,6 @@
 ﻿using ElectricCarStore_DAL.Models.Model;
 using ElectricCarStore_DAL.Models.PostModel;
+using ElectricCarStore_DAL.Models.ResponseModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace ElectricCarStore_BLL.IService
 {
     public interface IContactService
     {
-        Task<IEnumerable<Contact>> GetAllContactsAsync();
+        Task<PagedResponse<Contact>> GetAllContactsAsync(int page, int perPage);
         Task<Contact> GetContactByIdAsync(int id);
         Task<Contact> CreateContactAsync(ContactPostModel contactModel);
         Task<Contact> UpdateContactAsync(int id, ContactPostModel contactModel);

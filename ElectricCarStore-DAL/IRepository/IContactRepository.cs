@@ -1,4 +1,5 @@
 ﻿using ElectricCarStore_DAL.Models.Model;
+using ElectricCarStore_DAL.Models.ResponseModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace ElectricCarStore_DAL.IRepository
 {
     public interface IContactRepository
     {
-        Task<IEnumerable<Contact>> GetAllAsync();
+        Task<PagedResponse<Contact>> GetAllAsync(int page, int perPage);
         Task<Contact> GetByIdAsync(int id);
         Task<Contact> AddAsync(Contact contact);
         Task<Contact> UpdateAsync(Contact contact);

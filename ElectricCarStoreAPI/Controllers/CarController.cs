@@ -20,9 +20,9 @@ namespace ElectricCarStoreAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Car>>> GetAllCars()
+        public async Task<ActionResult<IEnumerable<Car>>> GetAllCars(int page = 1, int perPage = 10)
         {
-            var cars = await _carService.GetAllCarsAsync();
+            var cars = await _carService.GetAllCarsAsync(page, perPage);
             return Ok(cars);
         }
 

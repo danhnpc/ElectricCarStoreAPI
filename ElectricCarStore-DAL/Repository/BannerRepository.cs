@@ -2,6 +2,7 @@
 using ElectricCarStore_DAL.Models;
 using ElectricCarStore_DAL.Models.Model;
 using ElectricCarStore_DAL.Models.QueryModel;
+using ElectricCarStore_DAL.Models.ResponseModel;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -20,10 +21,15 @@ namespace ElectricCarStore_DAL.Repository
             _context = context;
         }
 
-        public async Task<IEnumerable<BannerViewModel>> GetAllAsync()
+        public async Task<PagedResponse<BannerViewModel>> GetAllAsync(int page = 1, int perPage = 10)
         {
-            return await _context.Banners
-                .Where(b => b.IsDeleted != true)
+            var query = _context.Banners.Where(b => b.IsDeleted != true);
+            int totalRecords = await query.CountAsync();
+
+            var banners = await query
+                .OrderByDescending(b => b.Id)
+                .Skip((page - 1) * perPage)
+                .Take(perPage)
                 .Select(b => new BannerViewModel
                 {
                     Id = b.Id,
@@ -33,6 +39,14 @@ namespace ElectricCarStore_DAL.Repository
                     ImageUrl = b.Image != null ? b.Image.Url : null,
                 })
                 .ToListAsync();
+
+            return new PagedResponse<BannerViewModel>
+            {
+                Data = banners,
+                TotalRecords = totalRecords,
+                CurrentPage = page,
+                PerPage = perPage
+            };
         }
 
         public async Task<Banner> GetByIdAsync(int id)

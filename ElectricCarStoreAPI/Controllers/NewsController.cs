@@ -18,9 +18,9 @@ namespace ElectricCarStoreAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<News>>> GetAllNews(bool? isAboutUs = null)
+        public async Task<ActionResult<IEnumerable<News>>> GetAllNews(int page = 1, int perPage = 10, bool? isAboutUs = null)
         {
-            var news = await _newsService.GetAllNewsAsync(isAboutUs);
+            var news = await _newsService.GetAllNewsAsync(page, perPage, isAboutUs);
             return Ok(news);
         }
 

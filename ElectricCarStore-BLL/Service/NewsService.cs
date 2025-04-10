@@ -3,6 +3,7 @@ using ElectricCarStore_DAL.IRepository;
 using ElectricCarStore_DAL.Models.Model;
 using ElectricCarStore_DAL.Models.PostModel;
 using ElectricCarStore_DAL.Models.QueryModel;
+using ElectricCarStore_DAL.Models.ResponseModel;
 
 namespace ElectricCarStore_BLL.Service
 {
@@ -15,9 +16,9 @@ namespace ElectricCarStore_BLL.Service
             _newsRepository = newsRepository;
         }
 
-        public async Task<IEnumerable<NewsViewModel>> GetAllNewsAsync(bool? isAboutUs = null)
+        public async Task<PagedResponse<NewsViewModel>> GetAllNewsAsync(int page = 1, int perPage = 10, bool? isAboutUs = null)
         {
-            return await _newsRepository.GetAllAsync(isAboutUs);
+            return await _newsRepository.GetAllAsync(page, perPage, isAboutUs);
         }
 
         public async Task<News> GetNewsByIdAsync(int id)

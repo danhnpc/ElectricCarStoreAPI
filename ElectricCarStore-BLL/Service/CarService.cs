@@ -3,6 +3,7 @@ using ElectricCarStore_DAL.IRepository;
 using ElectricCarStore_DAL.Models.Model;
 using ElectricCarStore_DAL.Models.PostModel;
 using ElectricCarStore_DAL.Models.QueryModel;
+using ElectricCarStore_DAL.Models.ResponseModel;
 using ElectricCarStore_DAL.Repository;
 using System;
 using System.Collections.Generic;
@@ -26,9 +27,9 @@ namespace ElectricCarStore_BLL.Service
             _carTypeRepository = carTypeRepository;
         }
 
-        public async Task<IEnumerable<Car>> GetAllCarsAsync()
+        public async Task<PagedResponse<Car>> GetAllCarsAsync(int page, int perPage)
         {
-            return await _carRepository.GetAllAsync();
+            return await _carRepository.GetAllAsync(page, perPage);
         }
 
         public async Task<Car> GetCarByIdAsync(int id)

@@ -1,6 +1,7 @@
 ﻿using ElectricCarStore_DAL.Models.Model;
 using ElectricCarStore_DAL.Models.PostModel;
 using ElectricCarStore_DAL.Models.QueryModel;
+using ElectricCarStore_DAL.Models.ResponseModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace ElectricCarStore_BLL.IService
 {
     public interface ICarService
     {
-        Task<IEnumerable<Car>> GetAllCarsAsync();
+        Task<PagedResponse<Car>> GetAllCarsAsync(int page, int perPage);
         Task<Car> GetCarByIdAsync(int id);
         Task<Car> CreateCarAsync(CarPostModel carModel);
         Task<Car> CreateCarDetailAsync(CarDetailPostModel model);

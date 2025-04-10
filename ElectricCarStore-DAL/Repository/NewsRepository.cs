@@ -2,6 +2,7 @@
 using ElectricCarStore_DAL.Models;
 using ElectricCarStore_DAL.Models.Model;
 using ElectricCarStore_DAL.Models.QueryModel;
+using ElectricCarStore_DAL.Models.ResponseModel;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ namespace ElectricCarStore_DAL.Repository
             _context = context;
         }
 
-        public async Task<IEnumerable<NewsViewModel>> GetAllAsync(bool? isAboutUs = null)
+        public async Task<PagedResponse<NewsViewModel>> GetAllAsync(int page = 1, int perPage = 10, bool? isAboutUs = null)
         {
             var query = _context.News.Where(n => n.IsDeleted != true);
 
@@ -29,7 +30,12 @@ namespace ElectricCarStore_DAL.Repository
                 query = query.Where(n => n.IsAboutUs == isAboutUs.Value);
             }
 
-            return await query
+            var totalCount = await query.CountAsync();
+
+            var news = await query
+                .OrderByDescending(n => n.CreatedDate)
+                .Skip((page - 1) * perPage)
+                .Take(perPage)
                 .Select(n => new NewsViewModel
                 {
                     Id = n.Id,
@@ -40,8 +46,16 @@ namespace ElectricCarStore_DAL.Repository
                     IsAboutUs = n.IsAboutUs,
                     ImageUrl = n.Image != null ? n.Image.Url : null,
                 })
-                .OrderByDescending(n => n.CreatedDate)
                 .ToListAsync();
+
+            return new PagedResponse<NewsViewModel>
+            {
+                Data = news,
+                TotalRecords = totalCount,
+                CurrentPage = page,
+                PerPage = perPage,
+            };
+            
         }
 
         public async Task<News> GetByIdAsync(int id)

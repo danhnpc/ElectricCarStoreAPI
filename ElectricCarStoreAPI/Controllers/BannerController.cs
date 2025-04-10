@@ -19,10 +19,17 @@ namespace ElectricCarStoreAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Banner>>> GetBanners()
+        public async Task<ActionResult<IEnumerable<Banner>>> GetBanners(int page = 1, int perPage = 10)
         {
-            var banners = await _bannerService.GetAllBannersAsync();
-            return Ok(banners);
+            try
+            {
+                var banners = await _bannerService.GetAllBannersAsync(page, perPage);
+                return Ok(banners);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new DefaultResponseContext { Message = $"Something when wrong: {ex.Message}" });
+            } 
         }
 
         [HttpGet("{id}")]

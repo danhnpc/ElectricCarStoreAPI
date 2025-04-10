@@ -1,6 +1,7 @@
 ﻿using ElectricCarStore_DAL.IRepository;
 using ElectricCarStore_DAL.Models;
 using ElectricCarStore_DAL.Models.Model;
+using ElectricCarStore_DAL.Models.ResponseModel;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -19,11 +20,24 @@ namespace ElectricCarStore_DAL.Repository
             _context = context;
         }
 
-        public async Task<IEnumerable<Contact>> GetAllAsync()
+        public async Task<PagedResponse<Contact>> GetAllAsync(int page, int perPage)
         {
-            return await _context.Contacts
-                .Where(c => c.IsDeleted != true)
+            var query = _context.Contacts.Where(x => x.IsDeleted != true);
+            var totalCount = await query.CountAsync();
+
+            var contacts = await query
+                .OrderByDescending(x => x.Id)
+                .Skip((page - 1) * perPage)
+                .Take(perPage)
                 .ToListAsync();
+
+            return new PagedResponse<Contact>
+            {
+                Data = contacts,
+                TotalRecords = totalCount,
+                CurrentPage = page,
+                PerPage = perPage
+            };
         }
 
         public async Task<Contact> GetByIdAsync(int id)
