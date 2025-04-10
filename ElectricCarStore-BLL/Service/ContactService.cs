@@ -44,6 +44,7 @@ namespace ElectricCarStore_BLL.Service
                 Title = contactModel.Title,
                 Content = contactModel.Content,
                 CarId = contactModel.CarId,
+                IsContact = contactModel.IsContact,
                 IsDeleted = false
             };
 
@@ -64,6 +65,7 @@ namespace ElectricCarStore_BLL.Service
             existingContact.Title = contactModel.Title;
             existingContact.Content = contactModel.Content;
             existingContact.CarId = contactModel.CarId;
+            existingContact.IsContact = contactModel.IsContact;
 
             return await _contactRepository.UpdateAsync(existingContact);
         }

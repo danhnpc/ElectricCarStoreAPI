@@ -31,6 +31,7 @@ namespace ElectricCarStore_DAL.Models.PostModel
         public string Content { get; set; }
 
         public int? CarId { get; set; }
+        public bool? IsContact { get; set; }
     }
 
 }

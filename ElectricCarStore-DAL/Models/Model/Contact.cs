@@ -41,4 +41,7 @@ public partial class Contact
 
     [Column("is_deleted")]
     public bool? IsDeleted { get; set; }
+
+    [Column("is_contact")]
+    public bool? IsContact { get; set; }
 }

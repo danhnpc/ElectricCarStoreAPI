@@ -56,6 +56,7 @@ namespace ElectricCarStore_BLL.Service
             existingNews.Desc = newsModel.Desc;
             existingNews.ImageId = newsModel.ImageId;
             existingNews.Content = newsModel.Content;
+            existingNews.IsAboutUs = newsModel.IsAboutUs;
             // Giữ nguyên CreatedDate và IsDeleted
 
             return await _newsRepository.UpdateAsync(existingNews);
