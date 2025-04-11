@@ -49,10 +49,19 @@ namespace ElectricCarStore_DAL.Repository
             };
         }
 
-        public async Task<Banner> GetByIdAsync(int id)
+        public async Task<BannerViewModel> GetByIdAsync(int id)
         {
             return await _context.Banners
-                .FirstOrDefaultAsync(b => b.Id == id && b.IsDeleted != true);
+                .Where(b => b.Id == id &&  b.IsDeleted != true)
+                .Select(b => new BannerViewModel
+                {
+                    Id = b.Id,
+                    Description = b.Description,
+                    Title = b.Title,
+                    ImageId = b.ImageId,
+                    ImageUrl = b.Image != null ? b.Image.Url : null,
+                })
+                .FirstOrDefaultAsync();
         }
 
         public async Task<Banner> AddAsync(Banner banner)

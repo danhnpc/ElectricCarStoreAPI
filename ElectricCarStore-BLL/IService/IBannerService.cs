@@ -8,7 +8,7 @@ namespace ElectricCarStore_BLL.IService
     public interface IBannerService
     {
         Task<PagedResponse<BannerViewModel>> GetAllBannersAsync(int page, int perPage);
-        Task<Banner> GetBannerByIdAsync(int id);
+        Task<BannerViewModel> GetBannerByIdAsync(int id);
         Task<Banner> CreateBannerAsync(BannerPostModel bannerModel);
         Task<Banner> UpdateBannerAsync(int id, BannerPostModel bannerModel);
         Task<bool> DeleteBannerAsync(int id);
