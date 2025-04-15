@@ -14,11 +14,11 @@ public partial class Contact
     public int Id { get; set; }
 
     [Column("full_name")]
-    [StringLength(255)]
+    [StringLength(20)]
     public string FullName { get; set; }
 
     [Column("phone_number")]
-    public int? PhoneNumber { get; set; }
+    public string PhoneNumber { get; set; }
 
     [Column("email")]
     [StringLength(255)]

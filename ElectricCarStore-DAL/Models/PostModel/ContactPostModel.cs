@@ -13,7 +13,7 @@ namespace ElectricCarStore_DAL.Models.PostModel
         [StringLength(255, ErrorMessage = "Họ tên không được vượt quá 255 ký tự")]
         public string FullName { get; set; }
 
-        public int? PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
 
         [EmailAddress(ErrorMessage = "Email không hợp lệ")]
         [StringLength(255, ErrorMessage = "Email không được vượt quá 255 ký tự")]
