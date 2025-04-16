@@ -28,7 +28,7 @@ namespace ElectricCarStore_BLL.Service
 
         public async Task<BannerViewModel> GetBannerByIdAsync(int id)
         {
-            var banner = await _bannerRepository.GetByIdAsync(id);
+            var banner = await _bannerRepository.GetDetailsByIdAsync(id);
             if (banner == null)
                 throw new KeyNotFoundException($"Banner with ID {id} not found.");
 
@@ -55,14 +55,12 @@ namespace ElectricCarStore_BLL.Service
                 throw new KeyNotFoundException($"Banner with ID {id} not found.");
 
             // Cập nhật các thuộc tính từ model
-            var updateBanner = new Banner
-            {
-                Title= bannerModel.Title,
-                Description= bannerModel.Description,
-                ImageId= bannerModel.ImageId,
-            };
+            // Cập nhật các thuộc tính từ model
+            existingBanner.Title = bannerModel.Title;
+            existingBanner.Description = bannerModel.Description;
+            existingBanner.ImageId = bannerModel.ImageId;
 
-            return await _bannerRepository.UpdateAsync(updateBanner);
+            return await _bannerRepository.UpdateAsync(existingBanner);
         }
 
         public async Task<bool> DeleteBannerAsync(int id)

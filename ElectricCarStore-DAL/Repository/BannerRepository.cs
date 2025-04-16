@@ -49,7 +49,7 @@ namespace ElectricCarStore_DAL.Repository
             };
         }
 
-        public async Task<BannerViewModel> GetByIdAsync(int id)
+        public async Task<BannerViewModel> GetDetailsByIdAsync(int id)
         {
             return await _context.Banners
                 .Where(b => b.Id == id &&  b.IsDeleted != true)
@@ -68,7 +68,17 @@ namespace ElectricCarStore_DAL.Repository
         {
             banner.IsDeleted = false;
             _context.Banners.Add(banner);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                // Log chi tiết lỗi
+                var innerException = ex.InnerException;
+                // Có thể log innerException.Message hoặc throw với thông tin chi tiết hơn
+                throw new Exception($"Lỗi khi lưu Banner: {innerException?.Message}", ex);
+            }
             return banner;
         }
 
@@ -95,6 +105,13 @@ namespace ElectricCarStore_DAL.Repository
         {
             return await _context.Banners
                 .AnyAsync(b => b.Id == id && b.IsDeleted != true);
+        }
+
+        public async Task<Banner> GetByIdAsync(int id)
+        {
+            return await _context.Banners
+                .Where(b => b.Id == id && b.IsDeleted != true)
+                .FirstOrDefaultAsync();
         }
     }
 
